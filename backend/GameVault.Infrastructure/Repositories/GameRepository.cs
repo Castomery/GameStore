@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GameVault.Domain.Models;
 using GameVault.Application.Interfaces.Repositories;
 using GameVault.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameVault.Infrastructure.Repositories
 {
@@ -13,19 +14,20 @@ namespace GameVault.Infrastructure.Repositories
     {
 
         public GameRepository(AppDbContext appDbContext) : base(appDbContext) { }
-        public Task<List<Game>> GetByGenreAsync(int genreId)
+        public async Task<List<Game>> GetByGenreAsync(int genreId)
         {
-            throw new NotImplementedException();
+            List<Game> games = await _appDbContext.Games.Where(g => g.GenreId == genreId).ToListAsync();
+            return games;
         }
 
-        public Task<Game?> GetWithReviewsAsync(int id)
+        public async Task<Game?> GetWithReviewsAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Games.Include(g => g.Reviews).FirstOrDefaultAsync(g => g.Id == id);
         }
 
-        public Task<List<Game>> SearchByTitleAsync(string title)
+        public async Task<List<Game>> SearchByTitleAsync(string title)
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Games.Where(g => g.Title.Contains(title)).ToListAsync();
         }
     }
 }

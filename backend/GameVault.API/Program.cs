@@ -1,4 +1,6 @@
+using GameVault.Application.Interfaces.Repositories;
 using GameVault.Infrastructure.Data;
+using GameVault.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,11 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<AppDbContext>((options) => 
 options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();
 
