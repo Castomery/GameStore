@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,12 +16,19 @@ namespace GameVault.Infrastructure.Repositories
         
         public async Task<List<Order>> GetAllOrdersByUserAsync(int userId)
         {
-            return await _appDbContext.Orders.Where(o => o.UserId == userId).ToListAsync();
+            return await _appDbContext.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Game)
+                .Where(o => o.UserId == userId)
+                .ToListAsync();
         }
 
         public Task<Order?> GetWithItemsAsync(int id)
         {
-            return _appDbContext.Orders.Include(o => o.OrderItems).FirstOrDefaultAsync(o => o.Id == id);
+            return _appDbContext.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Game)
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
     }
 }

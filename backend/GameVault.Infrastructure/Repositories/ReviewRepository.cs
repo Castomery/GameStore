@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +14,19 @@ namespace GameVault.Infrastructure.Repositories
     {
         public ReviewRepository(AppDbContext appDbContext) : base(appDbContext) { }
        
+        public override async Task<Review?> GetByIdAsync(int id)
+        {
+            return await _appDbContext.Reviews
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(r => r.Id == id);
+        }
+
         public async Task<List<Review>> GetByGameIdAsync(int gameId)
         {
-           return await _appDbContext.Reviews.Where(r => r.GameId == gameId).ToListAsync();
+           return await _appDbContext.Reviews
+               .Include(r => r.User)
+               .Where(r => r.GameId == gameId)
+               .ToListAsync();
         }
 
         public async Task<bool> ReviewExistsAsync(int userId, int gameId)

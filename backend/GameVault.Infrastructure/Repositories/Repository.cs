@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,30 +37,30 @@ namespace GameVault.Infrastructure.Repositories
             return true;
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public virtual async Task<List<T>> GetAllAsync()
         {
             var entries = await _appDbContext.Set<T>().ToListAsync();
             return entries;
         }
 
-        public async Task<T?> GetByIdAsync(int id)
+        public virtual async Task<T?> GetByIdAsync(int id)
         {
             var entity = await _appDbContext.Set<T>().FindAsync(id);
 
             return entity;
         }
 
-        public async Task<T> UpdateAsync(int id, T entity)
+        public virtual async Task<T> UpdateAsync(int id, T entity)
         {
             var existing = await _appDbContext.Set<T>().FindAsync(id);
 
             if (existing == null) throw new KeyNotFoundException($"Entity with id {id} not found");
 
-            _appDbContext.Set<T>().Update(entity);
+            _appDbContext.Entry(existing).CurrentValues.SetValues(entity);
 
             await _appDbContext.SaveChangesAsync();
 
-            return entity;
+            return existing;
         }
     }
 }
