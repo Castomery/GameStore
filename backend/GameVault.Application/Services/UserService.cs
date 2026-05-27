@@ -1,21 +1,27 @@
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Text;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using GameVault.Application.Dtos.User;
 using GameVault.Application.Interfaces.Repositories;
 using GameVault.Application.Interfaces.Services;
 using GameVault.Domain.Models;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
 
 namespace GameVault.Application.Services
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
+            _configuration = configuration;
         }
 
         public async Task<AuthResponseDto?> RegisterAsync(RegisterDto registerDto)
@@ -71,8 +77,25 @@ namespace GameVault.Application.Services
             };
         }
 
+        public async Task<UserProfileDto?> GetUserProfileAsync(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+
+            return new UserProfileDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.UserName,
+            };
+        }
+
+
         #region Hashing Helper
-        private static string HashPassword(string password)
+        private string HashPassword(string password)
         {
             byte[] salt = RandomNumberGenerator.GetBytes(16);
             byte[] hash = Rfc2898DeriveBytes.Pbkdf2(
@@ -105,16 +128,34 @@ namespace GameVault.Application.Services
         #endregion
 
         #region Token Helper
-        private static string GenerateSecureToken(User user)
+        private string GenerateSecureToken(User user)
         {
-            var claims = $"{user.Id}:{user.Email}:{DateTime.UtcNow.AddHours(2).Ticks}";
-            var claimsBytes = Encoding.UTF8.GetBytes(claims);
+            var tokenHandler = new JwtSecurityTokenHandler();
             
-            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes("GameVaultSuperSecretKey123456789"));
-            var signatureBytes = hmac.ComputeHash(claimsBytes);
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"] ?? throw new InvalidOperationException("JWT SecretKey is not configured"));
 
-            return $"{Convert.ToBase64String(claimsBytes)}.{Convert.ToBase64String(signatureBytes)}";
+            var tokenDescription = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                }),
+                Expires = DateTime.UtcNow.AddHours(double.Parse(_configuration["Jwt:ExpiresHours"]
+                                                                ?? throw new InvalidOperationException("JWT ExpiresHours is not configured"))),
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256
+                )
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescription);
+
+            return tokenHandler.WriteToken(token);
         }
+
+        
         #endregion
     }
 }

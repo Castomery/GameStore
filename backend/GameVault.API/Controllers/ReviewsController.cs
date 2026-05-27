@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameVault.Application.Interfaces.Services;
 using GameVault.Application.Dtos.Review;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace GameVault.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ReviewsController : ControllerBase
     {
         private readonly IReviewService _reviewService;
@@ -18,6 +21,7 @@ namespace GameVault.API.Controllers
             _reviewService = reviewService;
         }
 
+        [AllowAnonymous]
         [HttpGet("game/{gameId}")]
         public async Task<ActionResult<List<ReviewDto>>> GetReviewsByGame(int gameId)
         {
@@ -28,12 +32,12 @@ namespace GameVault.API.Controllers
         [HttpPost("game/{gameId}")]
         public async Task<ActionResult<ReviewDto>> AddReview(
             int gameId, 
-            [FromBody] CreateReviewDto createReviewDto,
-            [FromHeader(Name = "X-User-Id")] int userId)
+            [FromBody] CreateReviewDto createReviewDto)
         {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
             if (userId <= 0)
             {
-                return Unauthorized("A valid X-User-Id header is required to submit a review.");
+                return Unauthorized("User not authenticated.");
             }
 
             if (!ModelState.IsValid)
@@ -63,12 +67,13 @@ namespace GameVault.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ReviewDto>> UpdateReview(
             int id, 
-            [FromBody] UpdateReviewDto updateReviewDto,
-            [FromHeader(Name = "X-User-Id")] int userId)
+            [FromBody] UpdateReviewDto updateReviewDto)
         {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+
             if (userId <= 0)
             {
-                return Unauthorized("A valid X-User-Id header is required to update a review.");
+                return Unauthorized("User not authenticated.");
             }
 
             if (!ModelState.IsValid)
@@ -97,12 +102,12 @@ namespace GameVault.API.Controllers
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteReview(
-            int id,
-            [FromHeader(Name = "X-User-Id")] int userId)
+            int id)
         {
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
             if (userId <= 0)
             {
-                return Unauthorized("A valid X-User-Id header is required to delete a review.");
+                return Unauthorized("User not authenticated.");
             }
 
             try

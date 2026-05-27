@@ -11,5 +11,6 @@ namespace GameVault.Application.Interfaces.Services
     {
         Task<AuthResponseDto?> RegisterAsync(RegisterDto registerDto);
         Task<AuthResponseDto?> LoginAsync(LoginDto loginDto);
+        Task<UserProfileDto?> GetUserProfileAsync(int id);
     }
 }
