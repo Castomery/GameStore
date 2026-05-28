@@ -144,6 +144,8 @@ namespace GameVault.Application.Services
                 }),
                 Expires = DateTime.UtcNow.AddHours(double.Parse(_configuration["Jwt:ExpiresHours"]
                                                                 ?? throw new InvalidOperationException("JWT ExpiresHours is not configured"))),
+                Issuer = _configuration["Jwt:Issuer"], 
+                Audience = _configuration["Jwt:Audience"],
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256
