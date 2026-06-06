@@ -7,3 +7,21 @@ export interface Game {
   coverImageUrl: string;
   genreName: string;
 }
+
+export interface CreateGameDto {
+  title: string;
+  description: string;
+  price: number;
+  releaseDate: Date;
+  coverImageUrl: string;
+  genreId: number;
+}
+
+export interface UpdateGameDto {
+  title?: string;
+  description?: string;
+  price?: number;
+  releaseDate?: Date;
+  coverImageUrl?: string;
+  genreId?: number;
+}

@@ -5,3 +5,13 @@ export interface Review{
     createdAt: Date;
     userName: string;
 }
+
+export interface CreateReviewDto {
+    text: string;
+    rating: number;
+}
+
+export interface UpdateReviewDto {
+    text: string;
+    rating: number;
+}
