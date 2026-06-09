@@ -7,7 +7,7 @@ import { CreateGameDto, Game, UpdateGameDto } from '../../../shared/models/game.
 @Injectable({
   providedIn: 'root',
 })
-export class GameService {
+export class GamesService {
   private apiUrl = `${environment.apiUrl}/games`;
 
   constructor(private http: HttpClient) {}
