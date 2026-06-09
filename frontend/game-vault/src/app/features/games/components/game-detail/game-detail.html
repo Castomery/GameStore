@@ -1,0 +1,16 @@
+@if(game){
+    <div class="game-detail">
+        <img [src]="game.coverImageUrl" [alt]="game.title">
+        
+        <div class="game-info">
+            <h2>{{ game.title }}</h2>
+            <p>{{ game.description }}</p>
+            <span>{{ game.genreName }}</span>
+            <span>{{ game.price | currency }}</span>
+        </div>
+    </div>
+    <app-review-form [gameId]="game.id"></app-review-form>
+    <app-review-list [gameId]="game.id"></app-review-list>
+}@else {
+    <p>Loading...</p>
+}

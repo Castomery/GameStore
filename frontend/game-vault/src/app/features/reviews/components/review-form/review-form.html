@@ -1,0 +1,21 @@
+<form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+    
+    <div>
+        <label>Rating (1-5)</label>
+        <input type="number" formControlName="rating">
+        @if (reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched) {
+            <span>Rating must be between 1 and 5</span>
+        }
+    </div>
+
+    <div>
+        <label>Review</label>
+        <textarea formControlName="text"></textarea>
+        @if (reviewForm.get('text')?.invalid && reviewForm.get('text')?.touched) {
+            <span>Review must be at least 10 characters</span>
+        }
+    </div>
+
+    <button type="submit" [disabled]="reviewForm.invalid">Submit</button>
+
+</form>

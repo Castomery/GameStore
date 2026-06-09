@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CreateReviewDto, Review, UpdateReviewDto } from '../../../shared/models/review.model';
 import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,8 @@ import { Observable } from 'rxjs';
 export class ReviewService {
 
   private apiUrl = `${environment.apiUrl}/reviews`;
+
+  reviewAdded$ = new Subject<void>();
 
   constructor(private http: HttpClient) {}
 
