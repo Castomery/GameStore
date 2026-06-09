@@ -1,5 +1,9 @@
-<div class="game-list">
-    @for (game of games; track game.id) {
-        <app-game-card [game]="game"></app-game-card>
-    }
-</div>
+@if(games$ | async; as games) {
+    <div class="game-list">
+        @for (game of games; track game.id) {
+            <app-game-card [game]="game"></app-game-card>
+        }@empty {
+            <p>No games found.</p>
+        }
+    </div>
+}

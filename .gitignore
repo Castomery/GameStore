@@ -49,7 +49,7 @@ dist/
 *.js.map
 
 # Environment files
-src/environments/
+frontend/game-vault/src/environments/
 
 # ========================
 # General

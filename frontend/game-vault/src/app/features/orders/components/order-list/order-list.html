@@ -1,1 +1,15 @@
-<p>order-list works!</p>
+@if(orders$ | async; as orders) {
+    <div class="orders-list">
+    @for (order of orders; track order.id) {
+       <div class="order-card">
+                <h3>Order #{{ order.id }}</h3>
+                <span>{{ order.createdAt | date }}</span>
+                <p>Total: {{ order.totalPrice | currency }}</p>
+
+                <a [routerLink]="['/orders', order.id]">View Details</a>
+        </div>
+    }@empty {
+        <p>No orders found.</p>
+    }
+    </div>
+}

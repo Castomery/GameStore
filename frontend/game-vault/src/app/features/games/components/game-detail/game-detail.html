@@ -1,4 +1,4 @@
-@if(game){
+@if(game$ | async; as game) {
     <div class="game-detail">
         <img [src]="game.coverImageUrl" [alt]="game.title">
         

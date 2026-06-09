@@ -6,6 +6,6 @@ export interface AuthResponse {
 
 export interface UserProfile {
     id : number;
-    userName: string;
+    name: string;
     email: string;
 }

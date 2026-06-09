@@ -23,7 +23,7 @@ export class AuthService {
 
       const userProfile: UserProfile = {
         id: payload.nameid,
-        userName: payload.unique_name,
+        name: payload.unique_name,
         email: payload.email,
       };
       this.currentUser$.next(userProfile);
@@ -60,7 +60,7 @@ export class AuthService {
     const payload = JSON.parse(atob(response.token.split('.')[1]));
     this.currentUser$.next({
       id: payload.nameid,
-      userName: response.userName,
+      name: response.userName,
       email: response.email,
     });
   }
