@@ -141,6 +141,7 @@ namespace GameVault.Application.Services
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Role, user.Role),
                 }),
                 Expires = DateTime.UtcNow.AddHours(double.Parse(_configuration["Jwt:ExpiresHours"]
                                                                 ?? throw new InvalidOperationException("JWT ExpiresHours is not configured"))),

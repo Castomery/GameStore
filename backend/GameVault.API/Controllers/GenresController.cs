@@ -11,11 +11,11 @@ namespace GameVault.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class GenreController : ControllerBase
+    public class GenresController : ControllerBase
     {
         private readonly IGenreService _genreService;
 
-        public GenreController(IGenreService genreService)
+        public GenresController(IGenreService genreService)
         {
             _genreService = genreService;
         }
@@ -29,6 +29,7 @@ namespace GameVault.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<GenreDto>> CreateGenre([FromBody] CreateGenreDto createGenreDto)
         {
             if (!ModelState.IsValid)
@@ -45,6 +46,7 @@ namespace GameVault.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteGenre(int id)
         {
             var result = await _genreService.DeleteGenreAsync(id);

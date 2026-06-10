@@ -12,7 +12,7 @@ export interface CreateGameDto {
   title: string;
   description: string;
   price: number;
-  releaseDate: Date;
+  releaseDate: string;
   coverImageUrl: string;
   genreId: number;
 }
@@ -21,7 +21,7 @@ export interface UpdateGameDto {
   title?: string;
   description?: string;
   price?: number;
-  releaseDate?: Date;
+  releaseDate?: string;
   coverImageUrl?: string;
   genreId?: number;
 }

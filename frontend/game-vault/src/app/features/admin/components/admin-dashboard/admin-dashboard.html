@@ -1,0 +1,7 @@
+@if (games$ | async; as games) {
+    @for (game of games; track game.id) {
+        <p>{{ game.title }}</p>
+        <button (click)="onEditGame(game.id)">Edit</button>
+        <button (click)="onDeleteGame(game.id)">Delete</button>
+    }
+}

@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
-import { OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-navbar',
@@ -10,24 +9,21 @@ import { Subscription } from 'rxjs';
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class Navbar implements OnInit {
-  isLoggedIn = false;
+export class Navbar {
+    private authService = inject(AuthService);
+    private router = inject(Router);
 
-  private subscription = new Subscription();
+    isLoggedIn = false;
+    isAdmin = false;
 
-  constructor(private authService: AuthService,private router: Router,) {}
-
-    ngOnInit() {
-        this.subscription.add(
-            this.authService.currentUser$$.subscribe(user => {
-                console.log('Navbar user:', user);
+    constructor() {
+        this.authService.currentUser$$
+            .pipe(takeUntilDestroyed())
+            .subscribe(user => {
                 this.isLoggedIn = user !== null;
-            })
-        );
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
+                this.isAdmin = user?.role === 'Admin';
+                console.log('User updated:', user?.role);
+            });
     }
 
     logout() {

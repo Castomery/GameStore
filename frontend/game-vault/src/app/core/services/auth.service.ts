@@ -12,6 +12,10 @@ export class AuthService {
   public currentUser$$ = this.currentUser$.asObservable();
   private tokenKey = 'authToken';
 
+  get isAdmin(): boolean {
+    return this.currentUser$.value?.role === 'Admin';
+  }
+
   constructor(private http: HttpClient) {
     this.loadUserFromLocalStorage();
   }
@@ -25,6 +29,7 @@ export class AuthService {
         id: payload.nameid,
         name: payload.unique_name,
         email: payload.email,
+        role: payload.role,
       };
       this.currentUser$.next(userProfile);
     }
@@ -62,6 +67,7 @@ export class AuthService {
       id: payload.nameid,
       name: response.userName,
       email: response.email,
+      role: payload.role,
     });
   }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using GameVault.Application.Interfaces.Services;
 using GameVault.Application.Dtos.Game;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GameVault.API.Controllers
 {
@@ -37,6 +38,7 @@ namespace GameVault.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<GameDto>> CreateGame([FromBody] CreateGameDto createGameDto)
         {
             if (!ModelState.IsValid)
@@ -56,6 +58,7 @@ namespace GameVault.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<GameDto>> UpdateGame(int id, [FromBody] UpdateGameDto updateGameDto)
         {
             if (!ModelState.IsValid)
@@ -79,6 +82,7 @@ namespace GameVault.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteGame(int id)
         {
             var result = await _gameService.DeleteGameAsync(id);
