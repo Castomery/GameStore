@@ -14,7 +14,7 @@ namespace GameVault.Application.Dtos.Game
         public decimal Price { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string CoverImageUrl { get; set; } = string.Empty;
-
         public string GenreName { get; set; } = string.Empty;
+        public int GenreId { get; set; }
     }
 }

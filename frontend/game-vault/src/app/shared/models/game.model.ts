@@ -6,6 +6,7 @@ export interface Game {
   releaseDate: Date;
   coverImageUrl: string;
   genreName: string;
+  genreId: number;
 }
 
 export interface CreateGameDto {

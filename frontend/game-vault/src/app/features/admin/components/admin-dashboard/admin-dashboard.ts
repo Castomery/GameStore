@@ -1,6 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { GamesService } from '../../../games/services/games.service';
 import { AsyncPipe } from '@angular/common';
+import { Game } from '../../../../shared/models/game.model';
+import { BehaviorSubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -8,25 +12,29 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.scss',
 })
+
 export class AdminDashboard {
   private gamesService = inject(GamesService);
+  private router = inject(Router);
 
-  games$ = this.gamesService.getAllGames();
+  selectedGame: Game | null = null;
 
-  onDeleteGame(gameId: number) {
-    if (confirm('Are you sure you want to delete this game?')) {
-      this.gamesService.deleteGame(gameId).subscribe({
-        next: () => {
-          console.log('Game deleted');
-          this.games$ = this.gamesService.getAllGames();
-        },
-        error: (err) => console.error(err)
-      });
+
+   private refresh$ = new BehaviorSubject<void>(undefined);
+    games$ = this.refresh$.pipe(
+        switchMap(() => this.gamesService.getAllGames())
+    );
+
+    onDeleteGame(gameId: number) {
+        if (confirm('Are you sure?')) {
+            this.gamesService.deleteGame(gameId).subscribe({
+                next: () => this.refresh$.next(),
+                error: (err) => console.error(err)
+            });
+        }
     }
-  }
 
-  onEditGame(gameId: number) {
-    // Implement edit logic, e.g., navigate to an edit form
-    console.log('Edit game with ID:', gameId);
-  }
+    onEditGame(game: Game) {
+    this.router.navigate(['/admin/games', game.id, 'edit']);
+    }
 }

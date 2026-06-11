@@ -1,10 +1,12 @@
-@for(review of reviews; track review.id) {
-    <div class="review-item">
-        <h3>{{ review.userName }}</h3>
-        <span>Rating: {{ review.rating }}/5</span>
-        <p>{{ review.text }}</p>
-        <p>{{ review.createdAt | date:'mediumDate' }}</p>
-    </div>
-} @empty {
-    <p>No reviews yet.  </p>
-}
+<div class="review-list">
+    @for (review of reviews; track review.id) {
+        <div class="review-item">
+            <h3>{{ review.userName }}</h3>
+            <span>Rating: {{ review.rating }}/5</span>
+            <p>{{ review.text }}</p>
+            <p>{{ review.createdAt | date:'mediumDate' }}</p>
+        </div>
+    } @empty {
+        <p>No reviews yet.</p>
+    }
+</div>

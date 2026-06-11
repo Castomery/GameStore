@@ -1,0 +1,113 @@
+.genre-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+
+    h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+
+    form {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+
+        div {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            label {
+                color: var(--text-muted);
+                font-size: 0.9rem;
+            }
+
+            input {
+                background: var(--surface-light);
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                padding: 0.75rem 1rem;
+                color: var(--text);
+                font-size: 1rem;
+                transition: border-color 0.2s;
+
+                &:focus {
+                    outline: none;
+                    border-color: var(--primary);
+                }
+            }
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+
+            &:hover:not(:disabled) {
+                background: var(--primary-dark);
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .genre-list {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .genre-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            p {
+                font-size: 1rem;
+                font-weight: 500;
+            }
+
+            button {
+                background: var(--error);
+                color: white;
+                border: none;
+                padding: 0.4rem 0.8rem;
+                border-radius: var(--radius);
+                cursor: pointer;
+                transition: opacity 0.2s;
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        padding: 0 1rem;
+
+        form {
+            flex-direction: column;
+        }
+    }
+}

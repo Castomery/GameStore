@@ -8,8 +8,9 @@
             <a routerLink="/orders">Orders</a>
             <a routerLink="/profile">Profile</a>
             @if (isAdmin) {
-                <a routerLink="/games/new">Add Game</a>
+                <a routerLink="/admin/games/new">Add Game</a>
                 <a routerLink="/admin/dashboard">Admin dashboard</a>
+                <a routerLink="/admin/genres">Manage genres</a>
             }   
             <button (click)="logout()">Logout</button>
         } @else {

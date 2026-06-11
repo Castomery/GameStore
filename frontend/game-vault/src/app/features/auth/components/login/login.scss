@@ -1,0 +1,96 @@
+.login-container, .register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 70px);
+    padding: 2rem;
+
+    h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        color: var(--text);
+    }
+
+    form {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            label {
+                color: var(--text-muted);
+                font-size: 0.9rem;
+            }
+
+            input {
+                background: var(--surface-light);
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                padding: 0.75rem 1rem;
+                color: var(--text);
+                font-size: 1rem;
+                transition: border-color 0.2s;
+
+                &:focus {
+                    outline: none;
+                    border-color: var(--primary);
+                }
+            }
+
+            span {
+                color: var(--error);
+                font-size: 0.8rem;
+            }
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+
+            &:hover:not(:disabled) {
+                background: var(--primary-dark);
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    a {
+        margin-top: 1rem;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+
+        &:hover {
+            color: var(--primary);
+        }
+    }
+
+    @media (max-width: 480px) {
+        padding: 1rem;
+
+        form {
+            padding: 1.5rem;
+        }
+    }
+}

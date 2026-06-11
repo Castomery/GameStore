@@ -1,0 +1,67 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        text-decoration: none;
+    }
+
+    .navbar-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+
+        a {
+            color: var(--text-muted);
+            transition: color 0.2s;
+
+            &:hover {
+                color: var(--text);
+            }
+        }
+
+        button {
+            background: var(--error);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: opacity 0.2s;
+
+            &:hover { opacity: 0.8; }
+        }
+    }
+
+    // Планшет
+    @media (max-width: 768px) {
+        padding: 1rem;
+
+        .navbar-links {
+            gap: 1rem;
+        }
+    }
+
+    // Мобільний
+    @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+
+        .navbar-links {
+            justify-content: center;
+            gap: 0.75rem;
+        }
+    }
+}

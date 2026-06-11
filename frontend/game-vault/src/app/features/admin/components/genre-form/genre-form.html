@@ -1,10 +1,21 @@
 
-<form [formGroup]="genreForm" (ngSubmit)="onSubmit()">
-    
-    <div>
-        <label>Name</label>
-        <input type="text" formControlName="name">
-    </div>
+<div class="genre-form">
+    <h2>Manage Genres</h2>
 
-    <button type="submit" [disabled]="genreForm.invalid">Create Genre</button>
-</form>
+    <form [formGroup]="genreForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label>Name</label>
+            <input type="text" formControlName="name">
+        </div>
+        <button type="submit" [disabled]="genreForm.invalid">Add Genre</button>
+    </form>
+
+    <div class="genre-list">
+        @for (genre of genres(); track genre.id) {
+            <div class="genre-item">
+                <p>{{ genre.name }}</p>
+                <button (click)="onDeleteGenre(genre.id)">Delete</button>
+            </div>
+        }
+    </div>
+</div>

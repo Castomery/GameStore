@@ -95,7 +95,8 @@ namespace GameVault.Application.Services
                 Price = game.Price,
                 ReleaseDate = game.ReleaseDate,
                 CoverImageUrl = game.CoverImageUrl,
-                GenreName = game.Genre?.Name ?? string.Empty
+                GenreName = game.Genre?.Name ?? string.Empty,
+                GenreId = game.GenreId,
             };
         }
     }
