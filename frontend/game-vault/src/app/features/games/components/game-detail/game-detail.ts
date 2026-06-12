@@ -7,6 +7,7 @@ import { ReviewList } from '../../../reviews/components/review-list/review-list'
 import { ReviewForm } from "../../../reviews/components/review-form/review-form";
 import { Observable, switchMap } from 'rxjs';
 import { inject } from '@angular/core';
+import { CartService } from '../../../../core/services/cart.service';
 
 @Component({
   selector: 'app-game-detail',
@@ -16,11 +17,16 @@ import { inject } from '@angular/core';
 })
 export class GameDetail {
 
+  private cartService = inject(CartService);
   private gameService = inject(GamesService);
   private route = inject(ActivatedRoute);
 
   game$ : Observable<Game> = this.route.paramMap.pipe(
     switchMap(params => this.gameService.getGameById(Number(params.get('id'))))
   );
+
+  addToCart(game: Game){
+    this.cartService.addToCart(game);
+  }
 
 }

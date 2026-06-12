@@ -7,7 +7,9 @@
             <p>{{ game.description }}</p>
             <span>{{ game.genreName }}</span>
             <span>{{ game.price | currency }}</span>
+            <button class="add-to-cart-btn" (click)="addToCart(game)">Add to Cart</button>
         </div>
+
     </div>
     <app-review-form [gameId]="game.id"></app-review-form>
     <app-review-list [gameId]="game.id"></app-review-list>

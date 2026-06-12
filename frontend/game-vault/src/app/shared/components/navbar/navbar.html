@@ -11,7 +11,9 @@
                 <a routerLink="/admin/games/new">Add Game</a>
                 <a routerLink="/admin/dashboard">Admin dashboard</a>
                 <a routerLink="/admin/genres">Manage genres</a>
-            }   
+            }
+            
+            <a routerLink="/cart">Cart ({{ cartCount() }})</a>
             <button (click)="logout()">Logout</button>
         } @else {
             <a routerLink="/auth/login">Login</a>

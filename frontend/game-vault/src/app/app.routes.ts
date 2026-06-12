@@ -31,6 +31,11 @@ export const routes: Routes = [
     loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
   },
   {
+    path:'cart',
+    canActivate:[authGuard],
+    loadChildren: () => import('./features/cart/cart.routes').then((m) => m.CART_ROUTES),
+  },
+  {
     path: '**',
     redirectTo: 'games',
   },

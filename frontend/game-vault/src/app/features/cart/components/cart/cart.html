@@ -1,0 +1,43 @@
+<section class="cart-page">
+  @if(items().length > 0) {
+    <div class="cart-header">
+      <div>
+        <h1>Cart</h1>
+        <p>{{ items().length }} {{ items().length === 1 ? 'item' : 'items' }}</p>
+      </div>
+      <span class="cart-badge">{{ totalPrice() | currency }}</span>
+    </div>
+
+    <div class="cart-list">
+      @for(item of items(); track item.id) {
+        <div class="cart-item">
+          <img [src]="item.coverImageUrl" [alt]="item.title" />
+          <div class="item-details">
+            <h2>{{ item.title }}</h2>
+            <p class="genre">{{ item.genreName }}</p>
+            <p class="price">{{ item.price | currency }}</p>
+          </div>
+          <button type="button" class="remove-btn" (click)="removeItem(item.id)">
+            Remove
+          </button>
+        </div>
+      }
+    </div>
+
+    <div class="cart-summary">
+      <div>
+        <span>Total</span>
+        <strong>{{ totalPrice() | currency }}</strong>
+      </div>
+      <button type="button" class="checkout-btn" (click)="checkout()">
+        Checkout
+      </button>
+    </div>
+  } @else {
+    <div class="empty-cart">
+      <h1>Your cart is empty</h1>
+      <p>Add some games to see them here.</p>
+      <a class="browse-btn" [routerLink]="['/games']">Browse games</a>
+    </div>
+  }
+</section>

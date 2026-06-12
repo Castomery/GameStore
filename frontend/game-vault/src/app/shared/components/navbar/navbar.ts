@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { CartService } from '../../../core/services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,6 +13,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class Navbar {
     private authService = inject(AuthService);
     private router = inject(Router);
+    private cartService = inject(CartService);
+    
+    cartCount = this.cartService.cartCount;
 
     isLoggedIn = false;
     isAdmin = false;
